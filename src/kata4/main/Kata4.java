@@ -5,6 +5,7 @@
  */
 package kata4.main;
 
+import java.io.IOException;
 import java.util.List;
 import kata4.model.Histogram;
 import kata4.model.Mail;
@@ -21,16 +22,30 @@ public class Kata4 {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        String fileName = new String("email.txt");
-        List<Mail> mailList=MailListReader.read(fileName);
-        Histogram<String> mailHistogram = MailHistogramBuilder.build(mailList);
-        
-        
-        HistogramDisplay histo = new HistogramDisplay(mailHistogram);
-        histo.execute();
-        
+    private static final String filename = "email.txt";
+    private static List<Mail> mailList;
+    private static Histogram<String> histogram;
+
+    public static void main(String[] args) throws IOException {
+        execute();
     }
-    
+
+    private static void execute() throws IOException {
+        input();
+        process();
+        output();
+    }
+
+    private static void input() throws IOException {
+        mailList = MailListReader.read(filename);
+    }
+
+    private static void process(){
+        histogram = MailHistogramBuilder.build(mailList);
+    }
+
+    private static void output(){
+        HistogramDisplay histoDisplay = new HistogramDisplay(histogram);
+        histoDisplay.execute();
+    }
 }
